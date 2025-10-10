@@ -13,6 +13,7 @@ public class control {
             if (edad >= 18) {
                 System.out.println("Eres mayor de edad");
             }
+
             /*Escribe un programa que pide la edad por teclado y nos muestra
             el mensaje de “eres mayor de edad” o el mensaje de “eres menor de edad”.*/
             System.out.println("Ejercicio2");
@@ -30,6 +31,7 @@ public class control {
             else{
                 System.out.println("La edad no tiene sentido");
             }
+
             /*Realiza un programa que muestre por pantalla los
             20 primeros números naturales (1, 2, 3... 20)*/
             System.out.println("Ejercicio3");
@@ -38,6 +40,7 @@ public class control {
             for (int i = 1; i <=20 ; i++) {
             System.out.println("El numero natural es:"+i);
             }
+
             /*Realiza un programa que muestre los números pares comprendidos
             entre el 1 y el 200. Para ello utiliza un contador y suma de 2 en 2.*/
             System.out.println("Ejercicio4");
@@ -46,6 +49,7 @@ public class control {
             for (int i=2; i <= 200; i +=2) {
                     System.out.println("El par es:"+i);
                 }
+
             /*Realiza un programa que muestre los números pares comprendidos entre el 1 y el 200.
             Esta vez utiliza un contador sumando de 1 en 1*/
             System.out.println("Ejercicio5");
@@ -64,6 +68,7 @@ public class control {
             for (int i = 1; i <= numero; i++) {
                 System.out.println("El numero natural es:"+i);
             }
+
             /*Escribe un programa que lea una calificación numérica entre 0 y 10 y la transforma
             en calificación alfabética, escribiendo el resultado.
              de 0 a <3 Muy Deficiente.
@@ -100,6 +105,7 @@ public class control {
                     System.out.println("La nota es Sobresaliente: ");
                 }
             }
+
         /*Realiza un programa que lea un número positivo N y calcule y
         visualice su factorial N! Siendo el factorial:
         • 0! = 1
@@ -116,6 +122,7 @@ public class control {
             factorial = factorial * i;
         }
         System.out.println("El factorial es:"+factorial);
+
         /*Escribe un programa que recibe como datos de entrada una hora expresada en horas,
         minutos y segundos que nos calcula y escribe la hora, minutos y segundos que serán,
         transcurrido un segundo*/
@@ -140,9 +147,25 @@ public class control {
             minutos=0;
             horas = horas+1;
         }
-        if ( horas==23) {
+        if ( horas==24) {
             horas=0;
         }
         System.out.println("Dentro de um segundo sera:"+horas + "h" + minutos + "m" + segundos + "s");
+
+        /*Realiza un programa que lea 10 números no nulos y luego muestre un mensaje de si ha
+        leído algún número negativo o no.*/
+        System.out.println("Ejercicio10");
+        sc = new Scanner(System.in);
+
+        int num = 10;
+        for (int i = 0; i <= 10; i++) {
+            System.out.println("Añade un n   umero");
+            num = sc.nextInt();
+                if ( num < 0)
+                    System.out.println("El numero es Negativo");
+                else if ( num >= 0) {
+                    System.out.println("El numero es positivo");
+                }
+        }
     }
 }
