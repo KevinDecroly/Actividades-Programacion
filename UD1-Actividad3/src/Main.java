@@ -91,8 +91,17 @@ public class Main {
                     num1 = sc.nextDouble();
                     System.out.println("Introduce el segundo numero: ");
                     num2 = sc.nextDouble();
-                    System.out.println("La division de los dos numeros es: "+(num1/num2));
+                    if (num2 != 0.0) {
+                        System.out.println("La division de los dos mumeros  es: "+(num1/num2));
+                    }
+                    else  {
+                        System.out.println("No se puede dividir entre 0:");
+                    }
                     break;
+                case "5":
+                    System.out.println("Salir del programa");
+                default:
+                    System.out.println("Por favor escoja entre las opciones indicadas");
             }
         }while(!opcion.equals("5"));
 
