@@ -48,13 +48,14 @@ public class Main {
             matriz3= new double[n][m];
 
             int nPositivos = 0, nNegativos = 0, nNulos = 0;
-            for(int i=0; i<matriz3.length; i++){
-                for(int j=0; j<matriz3[i].length; j++){
+            for(int i=0; i < matriz3.length; i++) {
+                for(int j=0; j < matriz3[i].length; j++){
                     sc = new Scanner(System.in);
                     System.out.print("Ingrese el valor i=" + i + "j="+j);
                     double valor = sc.nextDouble();
-                    matriz3[i][j]= valor;
-                    if(valor ==0){
+                    matriz3[i][j]= valor    ;
+
+                    if(valor == 0){
                         nNulos++;
                     } else if (valor > 0){
                         nPositivos++;
@@ -64,9 +65,10 @@ public class Main {
                     }
                 }
             }
+
             for(int i=0; i<matriz3.length; i++){
-                for(int j=0; j<matriz3[i].length; j++){
-                    System.out.print(matriz3[i][j]+" ");
+                for(int j = 0; j < matriz3[i].length; j++){
+                    System.out.print(matriz3[i][j] + " ");
                 }
                 System.out.println();
             }
@@ -87,6 +89,82 @@ public class Main {
     Para cada persona, pedirá su género (0 para varón y 1 para mujer) y su sueldo.
     Esta información debe guardarse en una única matriz. Luego se mostrará por pantalla el
     sueldo medio de cada género.*/
+        System.out.println("\nEjercicio 4:");
+        int alumnos = 4, asignaturas = 5;
+
+        double[][] matriz4 = new double[alumnos][asignaturas];
+
+        double [][] estadisticas = new double[alumnos][3];
+        sc = new Scanner(System.in);
+
+        for (int i = 0; i < matriz4.length; i++) {
+            System.out.println("Alumno "+ (i+1));
+            for (int j = 0; j < matriz4[i].length; j++) {
+                sc = new Scanner(System.in);
+                System.out.print("Ingrese el valor de la nota de la asignatura "+ (j+1)+":  ");
+                matriz4[i][j] = sc.nextDouble();
+            }
+        }
+
+        for (int i = 0; i < matriz4.length; i++) {
+            estadisticas[i][0] = Double.MIN_VALUE;
+            estadisticas[i][1] = Double.MAX_VALUE;
+            estadisticas[i][2] = 0.0;
+            for (int j = 0; j < matriz4[i].length; j++) {
+                estadisticas[i][0] = Math.max(estadisticas[i][0], matriz4[i][j]);
+                estadisticas[i][1] = Math.min(estadisticas[i][1], matriz4[i][j]);
+                estadisticas[i][2] = estadisticas[i][2] + matriz4[i][j];
+            }
+            estadisticas[i][2] = estadisticas[i][2] / matriz4[i].length;
+        }
+
+        //Pintar estadisticas
+        for (int i = 0; i < estadisticas.length; i++) {
+            for (int j = 0; j < estadisticas[i].length; j++) {
+                System.out.print(estadisticas[i][j] + " ");
+            }
+            System.out.println();
+        }
+    /*
+     * Ejercicio 5: Necesitamos crear un programa para registrar sueldos de hombres y
+     * mujeres de una empresa y detectar si existe brecha salarial entre ambos. El
+     * programa pedirá por teclado la información de N personas distintas (valor también
+     * introducido por teclado). Para cada persona, pedirá su género (0 para varón y 1 para
+     * mujer) y su sueldo. Esta información debe guardarse en una única matriz. Luego se
+     * mostrará por pantalla el sueldo medio de cada género
+     */
+        System.out.println("\nEjercicio 5:");
+        int personas = 0;
+        sc = new Scanner(System.in);
+
+        System.out.print("Ingrese el numero de personas: ");
+        personas = sc.nextInt();
+
+        double[][] matriz5 = new double[personas][2];
+
+        double mediaH = 0.0, mediaM = 0.0;
+        int contadorH = 0,  contadorM = 0;
+
+        for (int i = 0; i < matriz5.length; i++) {
+            sc = new Scanner(System.in);
+            System.out.println("Ingrese el genero de la persona");
+            matriz5[i][0] = sc.nextDouble();
+            System.out.println("Ingrese el salario de la persona");
+            matriz5[i][1] = sc.nextDouble();
+
+            if(matriz5[i][0] == 0.0){
+                mediaH += matriz5[i][1];
+                contadorH++;
+            }else{
+                mediaM += matriz5[i][1];
+                contadorM++;
+            }
+        }
+        mediaH = mediaH / contadorH;
+        mediaM = mediaM /contadorM;
+
+        System.out.println("El salario medio de los hombres es: "+mediaH);
+        System.out.println("El salario medio de lass mujeres es: "+mediaM);
 
     }
 }
