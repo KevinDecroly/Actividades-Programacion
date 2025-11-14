@@ -185,7 +185,7 @@ public class Biblioteca {
     private void ampliarDimensionBiblioteca(){
         Libro[] librosAux = new Libro[this.libros.length + 5];
         for(int i = 0; i < this.libros.length; i++){
-            librosAux[i] = this.libros[i];
+            librosAux[i] = this .libros[i];
         }
         this.libros = librosAux;
     }
