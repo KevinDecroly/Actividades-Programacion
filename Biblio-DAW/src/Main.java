@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
 
         Biblioteca biblio = new Biblioteca("Bib001","BMS Jado",
-                "Pase de Altamira 23","info@bmsjado.es","942-20-23-25");
+                "Paseo de Altamira 23","info@bmsjado.es","942-20-23-25");
 
         Libro l1 = new Libro("La comunidad del anillo", "JRR Tolkien",
                 "ISBN123","23-7-1942");

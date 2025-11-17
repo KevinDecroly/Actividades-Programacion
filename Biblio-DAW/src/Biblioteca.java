@@ -188,7 +188,5 @@ public class Biblioteca {
             librosAux[i] = this .libros[i];
         }
         this.libros = librosAux;
-    }
-
-
+}
 }
