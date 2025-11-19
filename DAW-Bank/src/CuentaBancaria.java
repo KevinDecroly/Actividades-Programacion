@@ -25,8 +25,8 @@ public class  CuentaBancaria {
         this.Titular = Titular;
         this.saldo = 0;
 
-        this.nMovimientos = 0;
         this.movimientos = new Movimiento[100];
+        this.nMovimientos = 0;
 
     }
 
@@ -48,7 +48,51 @@ public class  CuentaBancaria {
     }
     public void ingresar(double cantidad) {
         if (cantidad <= 0) return ;
+        saldo+=cantidad;
+
+        if (cantidad>AvisaHacienda){
+            System.out.println("HACIENDAAAAAAAAA");
+        }
+        registrarMovimiento("Ingreso",cantidad);
+
+        if (saldo<0){
+            System.out.println("Saldo negativo");
+        }
     }
 
+    //Retirar el dinero
 
+    public void retirar(double cantidad) {
+        if (cantidad <= 0) return ;
+
+        if (saldo-cantidad<SaldoMinimo){
+            System.out.println("Saldo no disponible a retirar:Supera saldo mínimo");
+            return;
+        }
+
+        saldo-=cantidad;
+
+        registrarMovimiento("Retirada",cantidad);
+
+        if (cantidad>AvisaHacienda){
+            System.out.println("HACIENDAAAAAAAAAA");
+        }
+
+        if (saldo<0){
+            System.out.println("Saldo negativo");
+        }
+    }
+
+    private void registrarMovimiento(String tipo, double cantidad) {
+        if (nMovimientos<100){
+            movimientos[nMovimientos++]= new Movimiento(tipo,cantidad);
+        }
+    }
+
+    //Mostrar cada movimiento
+    public void mostrarMovimientos(){
+        for (int i = 0 ; i < nMovimientos; i++){
+            movimientos[i].mostrarInfoMovimiento();
+        }
+    }
 }

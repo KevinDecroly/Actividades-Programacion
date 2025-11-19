@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DAW-Bank.iml" filepath="$PROJECT_DIR$/DAW-Bank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DawBank.iml" filepath="$PROJECT_DIR$/DawBank.iml" />
     </modules>
   </component>
 </project>
