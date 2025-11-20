@@ -15,7 +15,7 @@ public class DawBank {
         // Pedir IBAN válido
         while (true) {
             System.out.print("Introduzca el IBAN (2 letras + 22 números): ");
-            iban = sc.nextLine();
+            iban = sc.nextLine().toUpperCase();
 
             // Validamos CuentaBancaria
             if (iban.matches("^[A-Z]{2}[0-9]{22}$")) {

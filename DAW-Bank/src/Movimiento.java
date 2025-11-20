@@ -13,7 +13,7 @@ public class Movimiento {
 
         this.id = contadorID++;
 
-        //Generar fecha actual
+        //Generar fecha
         java.util.Date fechaActual = new java.util.Date();
         java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("dd/MM/yyyy");
         this.fecha = formato.format(fechaActual);

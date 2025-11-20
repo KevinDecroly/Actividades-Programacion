@@ -32,7 +32,7 @@ public class  CuentaBancaria {
 
     //Getters
     public String getIBAN() {
-        return this.IBAN;
+        return this.IBAN.toUpperCase();
     }
 
     public String getTitular() {
@@ -91,8 +91,12 @@ public class  CuentaBancaria {
 
     //Mostrar cada movimiento
     public void mostrarMovimientos(){
-        for (int i = 0 ; i < nMovimientos; i++){
-            movimientos[i].mostrarInfoMovimiento();
-        }
+     if (nMovimientos == 0){
+         System.out.println("No hay movimientos en la cuenta");
+         return;
+     }
+     for (int i = 0; i < nMovimientos; i++){
+         System.out.println(movimientos[i].mostrarInfoMovimiento());
+     }
     }
 }
