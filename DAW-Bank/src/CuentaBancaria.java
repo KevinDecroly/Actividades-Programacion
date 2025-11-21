@@ -47,13 +47,13 @@ public class  CuentaBancaria {
         return iban !=null && iban.matches("^[A-Z]{2}[0-9]{22}$");
     }
     public void ingresar(double cantidad) {
-        if (cantidad <= 0) return ;
-        saldo+=cantidad;
+        if (cantidad <= 0) return ; //Si cantidad es menor o igual que 0 termina el metodo
+        saldo+=cantidad; //Se suma la cantidad del ingreso al saldo actual de la cuenta
 
         if (cantidad>AvisaHacienda){
             System.out.println("HACIENDAAAAAAAAA");
         }
-        registrarMovimiento("Ingreso",cantidad);
+        registrarMovimiento("Ingreso",cantidad); //Registrarmovimiento de la cuenta
 
         if (saldo<0){
             System.out.println("Saldo negativo");
@@ -63,14 +63,14 @@ public class  CuentaBancaria {
     //Retirar el dinero
 
     public void retirar(double cantidad) {
-        if (cantidad <= 0) return ;
+        if (cantidad <= 0) return ; //Si la cantidad es igual o menor que 0 no se puede retirar
 
-        if (saldo-cantidad<SaldoMinimo){
+        if (saldo-cantidad<SaldoMinimo){ //Si el saldo menos la cantidad a retirar es menor que el saldo minimo no permite retirar
             System.out.println("Saldo no disponible a retirar:Supera saldo mínimo");
             return;
         }
 
-        saldo-=cantidad;
+        saldo-=cantidad; //Restamos la cantidad retirada al saldo
 
         registrarMovimiento("Retirada",cantidad);
 
@@ -78,7 +78,7 @@ public class  CuentaBancaria {
             System.out.println("HACIENDAAAAAAAAAA");
         }
 
-        if (saldo<0){
+        if (saldo<0){ //Si al retirar el dinero el saldo queda negativo mandamos un aviso
             System.out.println("Saldo negativo");
         }
     }
@@ -98,5 +98,12 @@ public class  CuentaBancaria {
      for (int i = 0; i < nMovimientos; i++){
          System.out.println(movimientos[i].mostrarInfoMovimiento());
      }
+    }
+    public String mostrarDatos(){
+        String datos = "";
+        datos += "IBAN: "+this.IBAN+"\n";
+        datos += "Titular: "+this.Titular+"\n";
+        datos += "Saldo: "+this.saldo+"€\n";
+        return datos;
     }
 }

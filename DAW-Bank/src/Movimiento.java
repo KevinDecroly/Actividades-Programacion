@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Movimiento {
 
     //Atributos o campos de la clase (encapsulación)
@@ -14,9 +17,9 @@ public class Movimiento {
         this.id = contadorID++;
 
         //Generar fecha
-        java.util.Date fechaActual = new java.util.Date();
-        java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        this.fecha = formato.format(fechaActual);
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.fecha = fechaActual.format(formato);
 
         this.tipo = tipo;
         this.cantidad = cantidad;
@@ -43,7 +46,7 @@ public class Movimiento {
     }
 
     /*
-       METODO: mostrar informacion del movimiento
+       Metodo: mostrar informacion del movimiento
     */
     public String mostrarInfoMovimiento() {
         String info = "";

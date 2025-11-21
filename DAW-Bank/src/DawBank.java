@@ -6,7 +6,7 @@ public class DawBank {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("INFORMACION DAWBANK");
+        System.out.println("Registrate en DawBnk");
 
         //Pedir IBAN y titular
         String iban = "";
@@ -14,12 +14,12 @@ public class DawBank {
 
         // Pedir IBAN válido
         while (true) {
-            System.out.print("Introduzca el IBAN (2 letras + 22 números): ");
+            System.out.print("Introduce el IBAN:");
             iban = sc.nextLine().toUpperCase();
 
             // Validamos CuentaBancaria
             if (iban.matches("^[A-Z]{2}[0-9]{22}$")) {
-                break; // IBAN válido
+                break; // Parar si el iban es correcto
             } else {
                 System.out.println("ERROR: IBAN inválido. Debe tener 2 letras y 22 números.");
             }
@@ -36,7 +36,7 @@ public class DawBank {
 
         // Crear la cuenta
         CuentaBancaria cuenta = new CuentaBancaria(iban, titular);
-        System.out.println("Cuenta creada correctamente.");
+        System.out.println("Cuenta registrada correctamente.");
 
         //Menú principal
         int opcion = 0;
@@ -67,9 +67,7 @@ public class DawBank {
 
                 case 1:
                     System.out.println("\n DATOS DE LA CUENTA");
-                    System.out.println("IBAN: " + cuenta.getIBAN());
-                    System.out.println("Titular: " + cuenta.getTitular());
-                    System.out.println("Saldo: " + cuenta.getSaldo() + " €");
+                    System.out.println(cuenta.mostrarDatos());
                     break;
 
                 case 2:
@@ -88,7 +86,7 @@ public class DawBank {
                     System.out.print("Cantidad a ingresar: ");
                     if (sc.hasNextDouble()) {
                         double ingreso = sc.nextDouble();
-                        cuenta.ingresar(ingreso);
+                cuenta.ingresar(ingreso);
                     } else {
                         System.out.println("Cantidad no valida");
                         sc.nextLine();
