@@ -51,7 +51,7 @@ public class  CuentaBancaria {
         saldo+=cantidad; //Se suma la cantidad del ingreso al saldo actual de la cuenta
 
         if (cantidad>AvisaHacienda){
-            System.out.println("HACIENDAAAAAAAAA");
+            System.out.println("Aviso: Notificar hacienda");
         }
         registrarMovimiento("Ingreso",cantidad); //Registrarmovimiento de la cuenta
 
@@ -75,11 +75,11 @@ public class  CuentaBancaria {
         registrarMovimiento("Retirada",cantidad);
 
         if (cantidad>AvisaHacienda){
-            System.out.println("HACIENDAAAAAAAAAA");
+            System.out.println("Aviso: Notificar a hacienda");
         }
 
         if (saldo<0){ //Si al retirar el dinero el saldo queda negativo mandamos un aviso
-            System.out.println("Saldo negativo");
+            System.out.println("Avviso: Saldo negativo");
         }
     }
 
