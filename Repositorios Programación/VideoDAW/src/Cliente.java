@@ -2,15 +2,14 @@ import java.time.LocalDate;
 
 public class Cliente {
 
-    // Atributos encapsulados
+    // Atributos privados
     private String DNI;
     private String nombre;
-    private String numSocio;             // Ejemplo: S-0001
+    private String numSocio;       // Código único S-0001
     private String direccion;
     private LocalDate fechaNacimiento;
     private LocalDate fechaBaja;
 
-    // Array de películas alquiladas
     private Pelicula[] peliculasAlquiladas;
     private int nPeliculasActuales;
     private final int dimensionInicial = 10;
@@ -35,14 +34,13 @@ public class Cliente {
         this.nombre = nombre;
         this.numSocio = numSocio;
         this.direccion = direccion;
-
         this.fechaBaja = null;
 
         this.peliculasAlquiladas = new Pelicula[this.dimensionInicial];
         this.nPeliculasActuales = 0;
     }
 
-    // Getters
+    // Getters y Setters
     public String getDNI() { return this.DNI; }
     public String getNombre() { return this.nombre; }
     public String getNumSocio() { return this.numSocio; }
@@ -50,21 +48,14 @@ public class Cliente {
     public LocalDate getFechaNacimiento() { return this.fechaNacimiento; }
     public LocalDate getFechaBaja() { return this.fechaBaja; }
 
-    // Setters
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public void setFechaBaja(LocalDate fechaBaja) { this.fechaBaja = fechaBaja; }
 
-    public void setFechaBaja(LocalDate fechaBaja) {
-        this.fechaBaja = fechaBaja;
-    }
-
-    // VALIDAR DNI
+    // Métodos auxiliares
     private boolean validarDNI(String dni) {
         return dni != null && dni.matches("\\d{8}[A-Z]");
     }
 
-    // MAYOR DE EDAD
     private boolean esMayorEdad(LocalDate fecha) {
         if (fecha == null) return false;
         return fecha.plusYears(18).isBefore(LocalDate.now());
@@ -72,68 +63,45 @@ public class Cliente {
 
     // Insertar película alquilada
     public boolean insertarPelicula(Pelicula p) {
-        boolean resultado = false;
+        if (p == null) return false;
 
-        if (p != null) {
-            if (this.nPeliculasActuales < this.peliculasAlquiladas.length) {
-                this.peliculasAlquiladas[this.nPeliculasActuales] = p;
-                resultado = true;
-                this.nPeliculasActuales++;
-            } else {
-                this.ampliarDimensionPeliculas();
-                this.peliculasAlquiladas[this.nPeliculasActuales] = p;
-                resultado = true;
-                this.nPeliculasActuales++;
-            }
+        // Si no hay espacio, ampliamos el array
+        if (nPeliculasActuales >= peliculasAlquiladas.length) {
+            ampliarDimensionPeliculas();
         }
 
-        return resultado;
+        peliculasAlquiladas[nPeliculasActuales++] = p;
+        return true;
     }
 
     private void ampliarDimensionPeliculas() {
-        Pelicula[] aux = new Pelicula[this.peliculasAlquiladas.length + 5];
-
-        for (int i = 0; i < this.peliculasAlquiladas.length; i++) {
-            aux[i] = this.peliculasAlquiladas[i];
+        Pelicula[] aux = new Pelicula[peliculasAlquiladas.length + 5];
+        for (int i = 0; i < peliculasAlquiladas.length; i++) {
+            aux[i] = peliculasAlquiladas[i];
         }
-
-        this.peliculasAlquiladas = aux;
+        peliculasAlquiladas = aux;
     }
 
-    // INFORMACIÓN DEL CLIENTE
+    // Mostrar información del cliente
     public String infoCliente() {
-
         StringBuilder sb = new StringBuilder("Cliente:\n");
-        sb.append("DNI: " + this.DNI + "\n");
-        sb.append("Nombre: " + this.nombre + "\n");
-        sb.append("Número de socio: " + this.numSocio + "\n");
-        sb.append("Dirección: " + this.direccion + "\n");
-        sb.append("Fecha nacimiento: " + this.fechaNacimiento + "\n");
-
-        if (this.fechaBaja != null)
-            sb.append("Fecha de baja: " + this.fechaBaja + "\n");
-        else
-            sb.append("Fecha de baja: No dado de baja\n");
-
+        sb.append("DNI: ").append(DNI).append("\n");
+        sb.append("Nombre: ").append(nombre).append("\n");
+        sb.append("Número de socio: ").append(numSocio).append("\n");
+        sb.append("Dirección: ").append(direccion).append("\n");
+        sb.append("Fecha nacimiento: ").append(fechaNacimiento).append("\n");
+        sb.append("Fecha baja: ").append(fechaBaja != null ? fechaBaja : "No dado de baja").append("\n");
         return sb.toString();
     }
 
-    // INFORMACIÓN DE LAS PELÍCULAS ALQUILADAS
+    // Mostrar películas alquiladas
     public String infoPeliculasAlquiladas() {
-
-        if (this.nPeliculasActuales == 0) {
-            return "El cliente no tiene películas alquiladas.";
-        }
+        if (nPeliculasActuales == 0) return "El cliente no tiene películas alquiladas.";
 
         StringBuilder sb = new StringBuilder("Películas alquiladas:\n");
-
-        for (int i = 0; i < this.nPeliculasActuales; i++) {
-            if (this.peliculasAlquiladas[i] != null) {
-                sb.append(this.peliculasAlquiladas[i].infoPelicula()).append("\n");
-            }
+        for (int i = 0; i < nPeliculasActuales; i++) {
+            sb.append(peliculasAlquiladas[i].infoPelicula()).append("\n");
         }
-
         return sb.toString();
     }
 }
-

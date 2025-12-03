@@ -7,7 +7,7 @@ public class GestionVideoDaw {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== REGISTRO DE NUEVO VIDEOCLUB ===");
+        System.out.println("REGISTRO DE NUEVO VIDEOCLUB");
 
         String CIF = "";
         String direccion = "";
@@ -16,32 +16,27 @@ public class GestionVideoDaw {
         while (true) {
             System.out.print("Introduce el CIF del videoclub: ");
             CIF = sc.nextLine().toUpperCase();
-
-            if (CIF.matches("[A-Z]\\d{7}[A-Z]")) {
+            if (CIF.matches("[A-Z][1-9]{7}[A-Z 0-9]"))
                 break;
-            } else {
-                System.out.println("ERROR: CIF inválido (Formato: Letra + 7 dígitos + letra).");
-            }
+            System.out.println("ERROR: CIF inválido (Formato: Letra + 7 numeros + número o letra de control).");
         }
 
-        // Dirección no vacía
+        // Pedir dirección no vacía
         while (direccion.isEmpty()) {
             System.out.print("Introduce la dirección del videoclub: ");
             direccion = sc.nextLine();
-
-            if (direccion.isEmpty()) {
-                System.out.println("ERROR: La dirección no puede estar vacía.");
-            }
+            if (direccion.isEmpty()) System.out.println("ERROR: La dirección no puede estar vacía.");
         }
 
-        // Crear videoclub
-        VideoDaw video = new VideoDaw(CIF, direccion);
+        // Crear el videoclub
+        VideooDaw video = new VideooDaw(CIF, direccion);
         System.out.println("Videoclub registrado correctamente.\n");
 
         int opcion = 0;
 
         do {
-            System.out.println("=== MENU PRINCIPAL VIDEO DAW ===");
+            // Mostrar menú principal
+            System.out.println("\n MENU PRINCIPAL");
             System.out.println("1. Registrar película");
             System.out.println("2. Registrar cliente");
             System.out.println("3. Alquilar película");
@@ -50,227 +45,121 @@ public class GestionVideoDaw {
             System.out.println("6. Dar de baja película");
             System.out.println("7. Mostrar información del videoclub");
             System.out.println("8. Salir");
-            System.out.print("Elige una opción: ");
+            System.out.print("Elige opción: ");
 
-            // Validar número
             if (!sc.hasNextInt()) {
-                System.out.println("Opción no válida");
+                System.out.println("Opción no válida.");
                 sc.nextLine();
                 continue;
             }
 
             opcion = sc.nextInt();
-            sc.nextLine(); // limpiar
+            sc.nextLine();
 
             switch (opcion) {
 
-                // ==========================
-                // 1. REGISTRAR PELÍCULA
-                // ==========================
                 case 1:
-                    System.out.println("\n=== Registrar Película ===");
-
-                    System.out.print("Código (ej. P-0001): ");
+                    // Registrar película
+                    System.out.print("Código: ");
                     String cod = sc.nextLine();
-
                     System.out.print("Título: ");
                     String titulo = sc.nextLine();
-
-                    System.out.println("Género (ACCION, COMEDIA, DRAMA, TERROR, ANIMACION, SCIFI, ROMANCE): ");
-                    String generoTexto = sc.nextLine().toUpperCase();
-
-                    Pelicula.Genero genero;
-
+                    System.out.print("Género (ACCION, COMEDIA, DRAMA, TERROR, ANIMACION, SCIFI, ROMANCE): ");
+                    String generoTxt = sc.nextLine().toUpperCase();
                     try {
-                        genero = Pelicula.Genero.valueOf(generoTexto);
+                        Pelicula.Genero genero = Pelicula.Genero.valueOf(generoTxt);
+                        Pelicula p = new Pelicula(cod, titulo, genero);
+                        if (video.registrarPelicula(p)) System.out.println("Película registrada correctamente.");
+                        else System.out.println("No se pudo registrar la película.");
                     } catch (Exception e) {
-                        System.out.println("Genero inválido.");
-                        break;
+                        System.out.println("Género inválido.");
                     }
-
-                    Pelicula p = new Pelicula(cod, titulo, genero);
-
-                    if (video.registrarPelicula(p)) {
-                        System.out.println("Película registrada correctamente.");
-                    } else {
-                        System.out.println("No se pudo registrar la película.");
-                    }
-
                     break;
 
-                // ==========================
-                // 2. REGISTRAR CLIENTE
-                // ==========================
                 case 2:
-                    System.out.println("\n=== Registrar Cliente ===");
-
-                    System.out.print("DNI (Ej: 12345678A): ");
-                    String dni = sc.nextLine().toUpperCase();
-
+                    // Registrar cliente
+                    System.out.print("DNI: ");
+                    String dni = sc.nextLine();
                     System.out.print("Nombre: ");
                     String nombre = sc.nextLine();
-
-                    System.out.print("Número de socio (Ej. S-0001): ");
+                    System.out.print("Número de socio: ");
                     String numSocio = sc.nextLine();
-
                     System.out.print("Dirección: ");
                     String dirCliente = sc.nextLine();
-
                     System.out.print("Fecha nacimiento (YYYY-MM-DD): ");
-                    String fechaTexto = sc.nextLine();
-
-                    LocalDate fechaNac;
                     try {
-                        fechaNac = LocalDate.parse(fechaTexto);
+                        LocalDate fechaNac = LocalDate.parse(sc.nextLine());
+                        Cliente c = new Cliente(dni, nombre, numSocio, dirCliente, fechaNac);
+                        if (video.registrarCliente(c)) System.out.println("Cliente registrado correctamente.");
+                        else System.out.println("No se pudo registrar el cliente.");
                     } catch (Exception e) {
                         System.out.println("Fecha inválida.");
-                        break;
                     }
-
-                    Cliente c = new Cliente(dni, nombre, numSocio, dirCliente, fechaNac);
-
-                    if (video.registrarCliente(c)) {
-                        System.out.println("Cliente registrado correctamente.");
-                    } else {
-                        System.out.println("No se pudo registrar el cliente.");
-                    }
-
                     break;
 
-                // ==========================
-                // 3. ALQUILAR PELÍCULA
-                // ==========================
                 case 3:
-                    System.out.println("\n=== Alquilar Película ===");
-
+                    // Alquilar película
                     System.out.print("Introduce código de película: ");
-                    String codigoAlq = sc.nextLine();
-
+                    String codA = sc.nextLine();
                     System.out.print("Introduce DNI cliente: ");
-                    String dniAlq = sc.nextLine();
-
-                    Pelicula peliculaAlq = null;
-                    Cliente clienteAlq = null;
-
-                    // Buscar película
-                    for (int i = 0; i < video.peliculasRegistradas.length; i++) {
-                        if (video.peliculasRegistradas[i] != null &&
-                                video.peliculasRegistradas[i].getCod().equalsIgnoreCase(codigoAlq)) {
-                            peliculaAlq = video.peliculasRegistradas[i];
-                        }
+                    String dniA = sc.nextLine();
+                    Pelicula pa = video.buscarPelicula(codA);
+                    Cliente ca = video.buscarCliente(dniA);
+                    if (pa != null && ca != null) {
+                        if (video.alquilarPelicula(pa, ca)) System.out.println("Película alquilada correctamente.");
+                        else System.out.println("No se pudo alquilar la película.");
+                    } else {
+                        System.out.println("Película o cliente no encontrados.");
                     }
-
-                    // Buscar cliente
-                    for (int i = 0; i < video.clientesRegistrados.length; i++) {
-                        if (video.clientesRegistrados[i] != null &&
-                                video.clientesRegistrados[i].getDNI().equalsIgnoreCase(dniAlq)) {
-                            clienteAlq = video.clientesRegistrados[i];
-                        }
-                    }
-
-                    if (video.alquilarPelicula(peliculaAlq, clienteAlq))
-                        System.out.println("Película alquilada correctamente.");
-
                     break;
 
-                // ==========================
-                // 4. DEVOLVER PELÍCULA
-                // ==========================
                 case 4:
-                    System.out.println("\n=== Devolver Película ===");
-
-                    System.out.print("Código película: ");
-                    String codDev = sc.nextLine();
-
-                    System.out.print("DNI del cliente: ");
-                    String dniDev = sc.nextLine();
-
-                    Pelicula peliculaDev = null;
-                    Cliente clienteDev = null;
-
-                    // Buscar película
-                    for (int i = 0; i < video.peliculasRegistradas.length; i++) {
-                        if (video.peliculasRegistradas[i] != null &&
-                                video.peliculasRegistradas[i].getCod().equalsIgnoreCase(codDev)) {
-                            peliculaDev = video.peliculasRegistradas[i];
-                        }
+                    // Devolver película
+                    System.out.print("Introduce código de película: ");
+                    String codD = sc.nextLine();
+                    System.out.print("Introduce DNI cliente: ");
+                    String dniD = sc.nextLine();
+                    Pelicula pd = video.buscarPelicula(codD);
+                    Cliente cd = video.buscarCliente(dniD);
+                    if (pd != null && cd != null) {
+                        if (video.devolverPelicula(pd, cd)) System.out.println("Película devuelta correctamente.");
+                        else System.out.println("No se pudo devolver la película.");
+                    } else {
+                        System.out.println("Película o cliente no encontrados.");
                     }
-
-                    // Buscar cliente
-                    for (int i = 0; i < video.clientesRegistrados.length; i++) {
-                        if (video.clientesRegistrados[i] != null &&
-                                video.clientesRegistrados[i].getDNI().equalsIgnoreCase(dniDev)) {
-                            clienteDev = video.clientesRegistrados[i];
-                        }
-                    }
-
-                    if (video.devolverPelicula(peliculaDev, clienteDev))
-                        System.out.println("Película devuelta correctamente.");
-
                     break;
 
-                // ==========================
-                // 5. DAR DE BAJA CLIENTE
-                // ==========================
                 case 5:
-                    System.out.println("\n=== Dar de baja cliente ===");
-
-                    System.out.print("DNI: ");
+                    // Dar de baja cliente
+                    System.out.print("DNI cliente a dar de baja: ");
                     String dniBaja = sc.nextLine();
-
-                    Cliente clienteBaja = null;
-
-                    for (int i = 0; i < video.clientesRegistrados.length; i++) {
-                        if (video.clientesRegistrados[i] != null &&
-                                video.clientesRegistrados[i].getDNI().equalsIgnoreCase(dniBaja)) {
-                            clienteBaja = video.clientesRegistrados[i];
-                        }
-                    }
-
-                    if (video.darBajaCliente(clienteBaja))
+                    Cliente clienteBaja = video.buscarCliente(dniBaja);
+                    if (clienteBaja != null) {
+                        video.darBajaCliente(clienteBaja);
                         System.out.println("Cliente dado de baja correctamente.");
-                    else
-                        System.out.println("No se encontró el cliente.");
-
+                    } else System.out.println("No se encontró el cliente.");
                     break;
 
-                // ==========================
-                // 6. DAR DE BAJA PELÍCULA
-                // ==========================
                 case 6:
-                    System.out.println("\n=== Dar de baja película ===");
-
-                    System.out.print("Código película: ");
+                    // Dar de baja película
+                    System.out.print("Código película a dar de baja: ");
                     String codBaja = sc.nextLine();
-
-                    Pelicula peliculaBaja = null;
-
-                    for (int i = 0; i < video.peliculasRegistradas.length; i++) {
-                        if (video.peliculasRegistradas[i] != null &&
-                                video.peliculasRegistradas[i].getCod().equalsIgnoreCase(codBaja)) {
-                            peliculaBaja = video.peliculasRegistradas[i];
-                        }
-                    }
-
+                    Pelicula peliculaBaja = video.buscarPelicula(codBaja);
                     if (peliculaBaja != null) {
                         peliculaBaja.setFechaBaja(LocalDate.now());
-                        System.out.println("Película dada de baja.");
-                    } else {
-                        System.out.println("No se encontró la película.");
-                    }
-
+                        System.out.println("Película dada de baja correctamente.");
+                    } else System.out.println("No se encontró la película.");
                     break;
 
-                // ==========================
-                // 7. MOSTRAR INFO VIDEOCLUB
-                // ==========================
                 case 7:
+                    // Mostrar información del videoclub
                     System.out.println(video.infoVideoClub());
                     System.out.println(video.infoPeliculasRegistradas());
                     System.out.println(video.infoClientesRegistrados());
                     break;
 
                 case 8:
+                    // Salir del programa
                     System.out.println("Saliendo del programa...");
                     break;
 
