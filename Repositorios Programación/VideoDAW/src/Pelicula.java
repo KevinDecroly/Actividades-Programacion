@@ -5,7 +5,7 @@ public class Pelicula {
 
     // ENUM de género
     public enum Genero {
-        ACCION, COMEDIA, DRAMA, TERROR, ANIMACION, SCIFI, ROMANCE
+        ACCION, COMEDIA, DRAMA, TERROR, ANIMACION, ROMANCE
     }
 
     // Atributos privados

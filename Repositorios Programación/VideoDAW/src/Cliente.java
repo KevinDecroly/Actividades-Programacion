@@ -83,15 +83,15 @@ public class Cliente {
     }
 
     // Mostrar información del cliente
-    public String infoCliente() {
-        StringBuilder sb = new StringBuilder("Cliente:\n");
-        sb.append("DNI: ").append(DNI).append("\n");
-        sb.append("Nombre: ").append(nombre).append("\n");
-        sb.append("Número de socio: ").append(numSocio).append("\n");
-        sb.append("Dirección: ").append(direccion).append("\n");
-        sb.append("Fecha nacimiento: ").append(fechaNacimiento).append("\n");
-        sb.append("Fecha baja: ").append(fechaBaja != null ? fechaBaja : "No dado de baja").append("\n");
-        return sb.toString();
+    public static String mostrarInfoCliente() {
+        String sb ="";
+        sb += "DNI: "+ this.DNI + "\n";
+        sb += "Nombre: "+ this.nombre + "\n";
+        sb += "Número de socio: "+ this.numSocio + "\n";
+        sb += "Dirección: "+ this.direccion + "\n";
+        sb += "Fecha nacimiento: "+ this.fechaNacimiento + "\n";
+        sb += "Fecha baja: " + this.fechaBaja  + "\n";
+        return sb;
     }
 
     // Mostrar películas alquiladas

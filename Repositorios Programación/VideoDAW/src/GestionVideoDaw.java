@@ -64,7 +64,7 @@ public class GestionVideoDaw {
                     String cod = sc.nextLine();
                     System.out.print("Título: ");
                     String titulo = sc.nextLine();
-                    System.out.print("Género (ACCION, COMEDIA, DRAMA, TERROR, ANIMACION, SCIFI, ROMANCE): ");
+                    System.out.print("Género (ACCION, COMEDIA, DRAMA, TERROR, ANIMACION, ROMANCE): ");
                     String generoTxt = sc.nextLine().toUpperCase();
                     try {
                         Pelicula.Genero genero = Pelicula.Genero.valueOf(generoTxt);
@@ -106,7 +106,8 @@ public class GestionVideoDaw {
                     Pelicula pa = video.buscarPelicula(codA);
                     Cliente ca = video.buscarCliente(dniA);
                     if (pa != null && ca != null) {
-                        if (video.alquilarPelicula(pa, ca)) System.out.println("Película alquilada correctamente.");
+                        if (video.alquilarPelicula(pa, ca))
+                            System.out.println("Película alquilada correctamente.");
                         else System.out.println("No se pudo alquilar la película.");
                     } else {
                         System.out.println("Película o cliente no encontrados.");
@@ -157,7 +158,6 @@ public class GestionVideoDaw {
                     System.out.println(video.infoPeliculasRegistradas());
                     System.out.println(video.infoClientesRegistrados());
                     break;
-
                 case 8:
                     // Salir del programa
                     System.out.println("Saliendo del programa...");
