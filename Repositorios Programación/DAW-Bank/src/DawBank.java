@@ -1,125 +1,109 @@
 import java.util.Scanner;
 
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class DawBank {
-
     public static void main(String[] args) {
+        Scanner sc;
 
-        Scanner sc = new Scanner(System.in);
+        final String ibanPattern = "[A-Z]{2}[0-9]{22}";
+        final String titularPattern = "[a-z A-Z]{3,}";
 
-        System.out.println("Registrate en DawBnk");
+        String titular = MiUtils.comprobarPatronRepetidamente(titularPattern, "Introduce un titular");
+        String IBAN = MiUtils.comprobarPatronRepetidamente(ibanPattern, "Introduce un IBAN");
 
-        //Pedir IBAN y titular
-        String iban = "";
-        String titular = "";
+        CuentaBancaria miCuenta = new CuentaBancaria(IBAN, titular);
 
-        // Pedir IBAN válido
-        while (true) {
-            System.out.print("Introduce el IBAN:");
-            iban = sc.nextLine().toUpperCase();
+        String opcion = "";
 
-            // Validamos CuentaBancaria
-            if (iban.matches("^[A-Z]{2}[0-9]{22}$")) {
-                break; // Parar si el iban es correcto
-            } else {
-                System.out.println("ERROR: IBAN inválido. Debe tener 2 letras y 22 números.");
-            }
-        }
+        do{
+            sc = new Scanner(System.in);
 
-        // Pedir titular hasta que sea válido
-        while (titular.isEmpty()) {
-            System.out.print("Introduzca el titular de la cuenta: ");
-            titular = sc.nextLine();
-            if (titular.isEmpty()) {
-                System.out.println("ERROR: El titular no puede estar vacío.");
-            }
-        }
-
-        // Crear la cuenta
-        CuentaBancaria cuenta = new CuentaBancaria(iban, titular);
-        System.out.println("Cuenta registrada correctamente.");
-
-        //Menú principal
-        int opcion = 0;
-
-        do {
-            System.out.println("\nMENU PRINCIPAL");
-            System.out.println("1. Datos de la cuenta");
-            System.out.println("2. Mostrar IBAN");
-            System.out.println("3. Mostrar titular");
-            System.out.println("4. Mostrar saldo");
-            System.out.println("5. Ingreso");
-            System.out.println("6. Retirada");
-            System.out.println("7. Movimientos");
-            System.out.println("8. Salir");
-            System.out.print("Elige una opcion: ");
-
-            //Validar número
-            if (!sc.hasNextInt()) {
-                System.out.println("Opcion no valida");
-                sc.nextLine();
-                continue;
-            }
-
-            opcion = sc.nextInt();
-            sc.nextLine();
+            imprimirMenuOpciones();
+            opcion = sc.nextLine();
 
             switch (opcion) {
-
-                case 1:
-                    System.out.println("\n DATOS DE LA CUENTA");
-                    System.out.println(cuenta.mostrarDatos());
+                case "1":
+                    System.out.println(miCuenta.infoCuentaBancaria());
                     break;
 
-                case 2:
-                    System.out.println("IBAN: " + cuenta.getIBAN());
+                case "2":
+                    System.out.println("El IBAN es: " + miCuenta.getIBAN());
                     break;
 
-                case 3:
-                    System.out.println("Titular: " + cuenta.getTitular());
+                case "3":
+                    System.out.println("El Titular es: " + miCuenta.getTitular());
                     break;
 
-                case 4:
-                    System.out.println("Saldo disponible: " + cuenta.getSaldo() + " €");
+                case "4":
+                    System.out.println("El saldo es: " + miCuenta.getSaldo());
                     break;
 
-                case 5:
-                    System.out.print("Cantidad a ingresar: ");
-                    if (sc.hasNextDouble()) {
-                        double ingreso = sc.nextDouble();
-                cuenta.ingresar(ingreso);
-                    } else {
-                        System.out.println("Cantidad no valida");
-                        sc.nextLine();
-                    }
+                case "5":
+                    ingresar(miCuenta);
                     break;
 
-                case 6:
-                    System.out.print("Cantidad a retirar: ");
-                    if (sc.hasNextDouble()) {
-                        double retirada = sc.nextDouble();
-                        cuenta.retirar(retirada);
-                    } else {
-                        System.out.println("Cantidad no valida");
-                        sc.nextLine();
-                    }
+                case "6":
+                    retirar(miCuenta);
                     break;
 
-                case 7:
-                    System.out.println("\n Historial de Movimientos");
-                    cuenta.mostrarMovimientos();
+                case "7":
+                    System.out.println(miCuenta.infoMovimientos());
                     break;
 
-                case 8:
-                    System.out.println("Saliendo del programa...");
+                case "8":
+                    System.out.println("Gracias por elegir DawBANk, hasta la proxima.");
                     break;
 
                 default:
-                    System.out.println("Opcion no valida");
-                    break;
+                    System.out.println("Por favor, escoja la opcion correcta (1-8) ejem ejem ejem tonto");
             }
 
-        } while (opcion != 8);
+        }while(!opcion.equals("8"));
 
-        sc.close();
+    }
+
+    private static void retirar(CuentaBancaria miCuenta) {
+        Scanner sc;
+        sc = new Scanner(System.in);
+        System.out.println("Introduce la cantidad a ingresar");
+        double retirar = sc.nextDouble();
+
+        if(miCuenta.retirar(retirar)){
+            System.out.println("La operación se ha realizado con exito");
+            if(Math.abs(retirar) > 3000){
+                System.out.println("Se ha notificado a hacienda del movimiento");
+            }
+        }else{
+            System.out.println("No se ha realizado la operación porque su saldo quedaria por debajo de -50€");
+        }
+    }
+
+    private static void ingresar(CuentaBancaria miCuenta) {
+        Scanner sc;
+        sc = new Scanner(System.in);
+        System.out.println("Introduce la cantidad a ingresar");
+        double cantidad = sc.nextDouble();
+
+        if(miCuenta.ingresar(cantidad)){
+            System.out.println("La operación se ha realizado con exito");
+            if(cantidad > 3000){
+                System.out.println("Se ha notificado a hacienda del movimiento");
+            }
+        }else{
+            System.out.println("Se ha producido un error en el proceso");
+        }
+    }
+
+    private static void imprimirMenuOpciones() {
+        System.out.println("Escoga la opcion que desee");
+        System.out.println("1. Datos de la cuenta");
+        System.out.println("2. IBAN");
+        System.out.println("3. Titular");
+        System.out.println("4. Saldo");
+        System.out.println("5. Ingreso");
+        System.out.println("6. Retirada");
+        System.out.println("7. Movimientos");
+        System.out.println("8. Salir");
     }
 }

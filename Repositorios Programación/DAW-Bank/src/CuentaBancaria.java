@@ -1,109 +1,92 @@
-public class  CuentaBancaria {
+public class CuentaBancaria {
 
-
-    //Atributos encapsulados
-    private final String IBAN;
-    private final String Titular;
+    private String IBAN;
+    private String titular;
     private double saldo;
 
-    //"Array" de movimientos en la cuenta
     private Movimiento[] movimientos;
-    private int nMovimientos;
 
-    //Limites de saldo y movimiento
-    public static final double SaldoMinimo = -50;
-    public static final double AvisaHacienda = 3000;
+    private int contadorMovimientos;
 
-    //Constructores
-    public CuentaBancaria(String IBAN, String Titular) {
-
-        if (!validarIBAN(IBAN)) {
-            throw new IllegalArgumentException("Invalid IBAN");
-        }
-
+    public CuentaBancaria(String IBAN, String titular) {
         this.IBAN = IBAN;
-        this.Titular = Titular;
-        this.saldo = 0;
+        this.titular = titular;
 
         this.movimientos = new Movimiento[100];
-        this.nMovimientos = 0;
+        this.saldo = 0.0;
 
+        this.contadorMovimientos = 0;
     }
 
-    //Getters
     public String getIBAN() {
-        return this.IBAN.toUpperCase();
+        return this.IBAN;
     }
 
     public String getTitular() {
-        return this.Titular;
+        return this.titular;
     }
+
     public double getSaldo() {
         return this.saldo;
     }
 
-    //Validación del IBAN (2 letras + 22 números)
-    private boolean validarIBAN(String iban) {
-        return iban !=null && iban.matches("^[A-Z]{2}[0-9]{22}$");
-    }
-    public void ingresar(double cantidad) {
-        if (cantidad <= 0) return ; //Si cantidad es menor o igual que 0 termina el metodo
-        saldo+=cantidad; //Se suma la cantidad del ingreso al saldo actual de la cuenta
-
-        if (cantidad>AvisaHacienda){
-            System.out.println("Aviso: Notificar hacienda");
-        }
-        registrarMovimiento("Ingreso",cantidad); //Registrarmovimiento de la cuenta
-
-        if (saldo<0){
-            System.out.println("Saldo negativo");
-        }
+    public boolean ingresar(double valor) {
+        boolean retorno = false;
+        double valorAbsoluto = Math.abs(valor);
+        this.saldo += valorAbsoluto;
+        retorno = true;
+        //generar movimiento
+        this.generarMovimiento(Tipo.INGRESO, valorAbsoluto);
+        return retorno;
     }
 
-    //Retirar el dinero
-
-    public void retirar(double cantidad) {
-        if (cantidad <= 0) return ; //Si la cantidad es igual o menor que 0 no se puede retirar
-
-        if (saldo-cantidad<SaldoMinimo){ //Si el saldo menos la cantidad a retirar es menor que el saldo minimo no permite retirar
-            System.out.println("Saldo no disponible a retirar:Supera saldo mínimo");
-            return;
+    public boolean retirar(double valor) {
+        boolean retorno = false;
+        double valorAbsoluto = Math.abs(valor);
+        if((this.saldo - valorAbsoluto) >= -50) {
+            this.saldo -= valorAbsoluto;
+            this.generarMovimiento(Tipo.RETIRADA, valorAbsoluto);
+            retorno = true;
         }
-
-        saldo-=cantidad; //Restamos la cantidad retirada al saldo
-
-        registrarMovimiento("Retirada",cantidad);
-
-        if (cantidad>AvisaHacienda){
-            System.out.println("Aviso: Notificar a hacienda");
-        }
-
-        if (saldo<0){ //Si al retirar el dinero el saldo queda negativo mandamos un aviso
-            System.out.println("Avviso: Saldo negativo");
-        }
+        return retorno;
     }
 
-    private void registrarMovimiento(String tipo, double cantidad) {
-        if (nMovimientos<100){
-            movimientos[nMovimientos++]= new Movimiento(tipo,cantidad);
+    public void generarMovimiento(Tipo tipo, double cantidad) {
+        if(this.contadorMovimientos < this.movimientos.length) {
+            this.movimientos[this.contadorMovimientos] = new Movimiento(tipo, cantidad);
         }
+        else if(this.contadorMovimientos >= this.movimientos.length) {
+            this.ampliarDimensionMovimientos();
+            this.movimientos[this.contadorMovimientos] = new Movimiento(tipo, cantidad);
+        }
+        this.contadorMovimientos++;
     }
 
-    //Mostrar cada movimiento
-    public void mostrarMovimientos(){
-     if (nMovimientos == 0){
-         System.out.println("No hay movimientos en la cuenta");
-         return;
-     }
-     for (int i = 0; i < nMovimientos; i++){
-         System.out.println(movimientos[i].mostrarInfoMovimiento());
-     }
+    private void ampliarDimensionMovimientos(){
+        Movimiento[] movimientosAux = new Movimiento[this.movimientos.length + 10];
+        for(int i = 0; i < this.movimientos.length; i++){
+            movimientosAux[i] = this.movimientos[i];
+        }
+        this.movimientos = movimientosAux;
     }
-    public String mostrarDatos(){
-        String datos = "";
-        datos += "IBAN: "+this.IBAN+"\n";
-        datos += "Titular: "+this.Titular+"\n";
-        datos += "Saldo: "+this.saldo+"€\n";
-        return datos;
+
+    public String infoCuentaBancaria() {
+        String info = "";
+        info += "Titular: " + this.titular + "\n";
+        info += "IBAN: " + this.IBAN + "\n";
+        info += "Saldo: " + this.saldo + "\n";
+        return info;
+    }
+
+    public String infoMovimientos() {
+        String info = "";
+        if(this.contadorMovimientos > 0) {
+            for(int i = 0; i < this.contadorMovimientos; i++){
+                info += this.movimientos[i].mostrarInfoMovimiento() + "\n";
+            }
+        }else{
+            info = "No hay movimientos";
+        }
+        return info;
     }
 }

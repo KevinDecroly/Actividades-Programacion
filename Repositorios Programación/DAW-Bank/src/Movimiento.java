@@ -1,33 +1,25 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Movimiento {
 
-    //Atributos o campos de la clase (encapsulación)
-    private static int contadorID = 1;
-
     private int id;
-    private String fecha;   //dd/mm/aaaa
-    private String tipo;    //"Ingreso" o "Retirada"
+    private String fecha;
+    private Tipo tipo;
     private double cantidad;
 
-    //Constructor/ Constructores
-    public Movimiento(String tipo, double cantidad) {
+    private static int contadorMovimiento = 0;
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    public Movimiento() {}
 
-        this.id = contadorID++;
-
-        //Generar fecha
-        LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.fecha = fechaActual.format(formato);
-
+    public Movimiento(Tipo tipo, double cantidad) {
+        this.id = contadorMovimiento;
+        this.fecha = LocalDateTime.now().format(dtf);
         this.tipo = tipo;
         this.cantidad = cantidad;
-    }
 
-    /*
-        GETTERS
-    */
+        contadorMovimiento++;
+    }
 
     public int getId() {
         return this.id;
@@ -37,7 +29,7 @@ public class Movimiento {
         return this.fecha;
     }
 
-    public String getTipo() {
+    public Tipo getTipo() {
         return this.tipo;
     }
 
@@ -45,16 +37,12 @@ public class Movimiento {
         return this.cantidad;
     }
 
-    /*
-       Metodo: mostrar informacion del movimiento
-    */
     public String mostrarInfoMovimiento() {
-        String info = "";
-        info += "ID: " + this.id + "\n";
-        info += "Fecha: " + this.fecha + "\n";
-        info += "Tipo: " + this.tipo + "\n";
-        info += "Cantidad: " + this.cantidad + " €\n";
-
-        return info;
+        String infoMovimiento = "";
+        infoMovimiento += "ID: " + this.id + "\n";
+        infoMovimiento += "Fecha: " + this.fecha + "\n";
+        infoMovimiento += "Tipo: " + this.tipo + "\n";
+        infoMovimiento += "Cantidad: " + this.cantidad + "€" + "\n";
+        return infoMovimiento;
     }
 }
