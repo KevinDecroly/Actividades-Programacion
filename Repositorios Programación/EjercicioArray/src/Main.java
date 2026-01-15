@@ -64,7 +64,7 @@ public class Main {
         System.out.println("Eliminar todos los valores del ArrayList");
         listaPersonas.clear();
         System.out.println(listaPersonas.size());
-
+        
 //        System.out.println("\n");
 //        System.out.println("MISMO EJERCICIO USANDO LINKEDLIST");
 //
