@@ -61,10 +61,30 @@ public class Main {
         for (Personas p : listaPersonas) {
             System.out.println(p);
         }
-        System.out.println("Eliminar todos los valores del ArrayList");
-        listaPersonas.clear();
-        System.out.println(listaPersonas.size());
-        
+//        System.out.println("Eliminar todos los valores del ArrayList");
+//        int index = -1
+//                for(Personas p : listaPersonas){
+//                    System.out.println(p);
+//                    if(p.getNombre().equals(p.getNombre())){
+//                        index = listaPersonas.indexOf(p);
+//                        break;
+//                    }
+//                }
+//        listaPersonas.remove(index);
+
+        System.out.println("Lista eliminada");
+        System.out.println("\n");
+        Personas pAux = null;
+        for (Personas p : listaPersonas) {
+            if(p.getNombre().equals(p.getNombre())){
+                pAux = p;
+                break;
+            }
+        }
+        if(pAux != null){
+            listaPersonas.remove(pAux);
+        }
+
 //        System.out.println("\n");
 //        System.out.println("MISMO EJERCICIO USANDO LINKEDLIST");
 //
@@ -124,8 +144,16 @@ public class Main {
 //        for (Personas p : listaPersonas) {
 //            System.out.println(p);
 //        }
-//        System.out.println("Eliminar todos los valores del LinkedList");
-//        listaPersonas.clear();
-//        System.out.println(listaPersonas.size());
+//        System.out.println("Lista eliminada");
+//        System.out.println("\n");
+//        Personas pAux = null;
+//        for (Personas p : listaPersonas) {
+//            if(p.getNombre().equals(p.getNombre())){
+//                pAux = p;
+//                break;
+//            }
+//        }
+//        if(pAux != null){
+//            listaPersonas.remove(pAux);
+        }
     }
-}
