@@ -1,7 +1,12 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Cliente extends Persona {
+public class Cliente extends Persona implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private String numSocio;
     private LocalDate fechaBaja;
@@ -11,6 +16,7 @@ public class Cliente extends Persona {
                    LocalDate fechaNacimiento, String numSocio) {
 
         super(dni, nombre, direccion, fechaNacimiento);
+        this.fechaBaja = fechaNacimiento;
         this.numSocio = numSocio;
         this.articulosAlquilados = new ArrayList<>();
     }
